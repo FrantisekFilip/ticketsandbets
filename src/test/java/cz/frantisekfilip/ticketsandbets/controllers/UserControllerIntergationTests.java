@@ -15,6 +15,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.util.ArrayList;
+
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
@@ -40,6 +42,7 @@ public class UserControllerIntergationTests {
                 .username("filipfr")
                 .password("123456789")
                 .email("filipfr@seznam.cz")
+                .tickets(new ArrayList<>())
                 .build();
         String testUserAAsJson = objectMapper.writeValueAsString(testUserA);
         mockMvc.perform(MockMvcRequestBuilders.post("/users/create")
@@ -56,6 +59,7 @@ public class UserControllerIntergationTests {
                 .username("filipfr")
                 .password("123456789")
                 .email("filipfr@seznam.cz")
+                .tickets(new ArrayList<>())
                 .build();
         String testUserAAsJson = objectMapper.writeValueAsString(testUserA);
         mockMvc.perform(MockMvcRequestBuilders.post("/users/create")
@@ -84,6 +88,7 @@ public class UserControllerIntergationTests {
                 .username("filipfr")
                 .password("123456789")
                 .email("filipfr@seznam.cz")
+                .tickets(new ArrayList<>())
                 .build();
         userService.save(testUserA);
         String testUserAAsJson = objectMapper.writeValueAsString(testUserA);
@@ -101,6 +106,7 @@ public class UserControllerIntergationTests {
                 .username("filipfr")
                 .password("123456789")
                 .email("filipfr@seznam.cz")
+                .tickets(new ArrayList<>())
                 .build();
         userService.save(testUserA);
         String testUserAAsJson = objectMapper.writeValueAsString(testUserA);
@@ -120,6 +126,7 @@ public class UserControllerIntergationTests {
                 .username("filipfr")
                 .password("123456789")
                 .email("filipfr@seznam.cz")
+                .tickets(new ArrayList<>())
                 .build();
         UserEntity savedUserA = userService.save(testUserA);
 
@@ -127,6 +134,7 @@ public class UserControllerIntergationTests {
                 .username("filipfranta")
                 .password("123456789")
                 .email("filipfr@seznam.cz")
+                .tickets(new ArrayList<>())
                 .build();
         userService.save(testUserB);
 

@@ -23,7 +23,7 @@ public class MatchController {
 
     private MatchServiceImpl matchService;
 
-    private MatchMapper<MatchEntity, MatchDto> matchMapper;
+    private Mapper<MatchEntity, MatchDto> matchMapper;
 
     @Autowired
     public MatchController(MatchServiceImpl matchService, MatchMapperImpl matchMapper) {
@@ -32,9 +32,9 @@ public class MatchController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<MatchDto> createUser(@RequestBody final MatchDto matchDto) {
+    public ResponseEntity<MatchDto> createMatch(@RequestBody final MatchDto matchDto) {
         MatchEntity newMatch = matchService.save(matchMapper.mapFrom(matchDto));
-        MatchDto matchDto1 = matchMapper.mapToExport(newMatch);
+        MatchDto matchDto1 = matchMapper.mapTo(newMatch);
         return new ResponseEntity<>(matchDto1, HttpStatus.CREATED);
     }
 
@@ -45,19 +45,19 @@ public class MatchController {
         }
         match.setId(id);
         MatchEntity updatedMatch = matchService.save(matchMapper.mapFrom(match));
-        return new ResponseEntity<>(matchMapper.mapToExport(updatedMatch), HttpStatus.OK);
+        return new ResponseEntity<>(matchMapper.mapTo(updatedMatch), HttpStatus.OK);
     }
 
     @GetMapping("")
     public List<MatchDto> listMatches(){
         List<MatchEntity> matchEntityList = matchService.findAll();
-        return matchEntityList.stream().map(matchMapper::mapToExport).collect(Collectors.toList());
+        return matchEntityList.stream().map(matchMapper::mapTo).collect(Collectors.toList());
     }
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<MatchDto> getMatch(@PathVariable("id") Long id){
         Optional<MatchEntity> foundMatch = matchService.findById(id);
 
-        return foundMatch.isEmpty() ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : new ResponseEntity<MatchDto>(matchMapper.mapToExport(foundMatch.get()), HttpStatus.OK);
+        return foundMatch.isEmpty() ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : new ResponseEntity<MatchDto>(matchMapper.mapTo(foundMatch.get()), HttpStatus.OK);
     }
 }

@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class MatchMapperImpl implements MatchMapper<MatchEntity, MatchDto> {
+public class MatchMapperImpl implements Mapper<MatchEntity, MatchDto> {
 
     private ModelMapper modelMapper;
 
@@ -24,22 +24,13 @@ public class MatchMapperImpl implements MatchMapper<MatchEntity, MatchDto> {
 
     @Override
     public MatchDto mapTo(MatchEntity matchEntity) {
+
         return modelMapper.map(matchEntity, MatchDto.class);
     }
 
     @Override
     public MatchEntity mapFrom(MatchDto matchDto) {
+
         return modelMapper.map(matchDto, MatchEntity.class);
-    }
-
-    @Override
-    public MatchDto mapToExport(MatchEntity matchEntity) {
-        MatchDto returnedDto = modelMapper.map(matchEntity, MatchDto.class);
-
-        MatchDto newMatch = new MatchDto(returnedDto.getId(), returnedDto.getSport(), returnedDto.getTeam1(), returnedDto.getTeam2(), returnedDto.getMatchDate(), null);
-        for(BetDto bet : returnedDto.getBets()) {
-            bet.setMatch(newMatch);
-        }
-        return returnedDto;
     }
 }

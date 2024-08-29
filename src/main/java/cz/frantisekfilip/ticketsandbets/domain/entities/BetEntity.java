@@ -1,7 +1,5 @@
 package cz.frantisekfilip.ticketsandbets.domain.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,7 +8,6 @@ import lombok.NoArgsConstructor;
 import jakarta.persistence.Id;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 @Entity
 @Table(name = "bets")
@@ -24,10 +21,10 @@ public class BetEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "match_id")
-    @JsonBackReference
-    private MatchEntity match;
+    private Long match_id;//MatchEntity nelze použít...rekurze
+
+    @Transient //bude ignorován při načítání z db, přidáme ho až bede potřeba a to be Listu betů (kvůli nekonečné rekurzi)
+    private MatchEntity match = null;
 
     private String betType;
     private BigDecimal odds;

@@ -28,8 +28,15 @@ public class MatchEntity {
     private String team2;
     private LocalDateTime matchDate;
 
-    @OneToMany(mappedBy = "match", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
+    @OneToMany(mappedBy = "match_id", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BetEntity> bets;
+
+    public MatchEntity(Long id, String sport, String team1, String team2, LocalDateTime matchDate) {
+        this.id = id;
+        this.sport = sport;
+        this.team1 = team1;
+        this.team2 = team2;
+        this.matchDate = matchDate;
+    }
 }
 

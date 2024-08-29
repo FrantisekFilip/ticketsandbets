@@ -19,20 +19,34 @@ public class MatchServiceImpl implements MatchService {
 
     @Autowired
     public MatchServiceImpl(MatchRepository matchRepository) {
+
         this.matchRepository = matchRepository;
     }
 
     @Override
     public MatchEntity save(MatchEntity matchEntity) {
+        //nový match
         if(matchEntity.getId() == null) {
             matchEntity = matchRepository.save(matchEntity);
         }
 
+        //přidáme id zápasu, aby se mohli bets uložit
         for (BetEntity bet : matchEntity.getBets()) {
-            bet.setMatch(matchEntity);
+            bet.setMatch_id(matchEntity.getId());
         }
 
         MatchEntity savedMatch = matchRepository.save(matchEntity);
+
+        //přidáme zápas bez Listu betů, aby nedošlo k nekonečné rekurzi
+        for (BetEntity bet : savedMatch.getBets()) {
+            bet.setMatch(new MatchEntity(
+                    savedMatch.getId(),
+                    savedMatch.getSport(),
+                    savedMatch.getTeam1(),
+                    savedMatch.getTeam2(),
+                    savedMatch.getMatchDate()
+            ));
+        }
 
         return savedMatch;
     }
